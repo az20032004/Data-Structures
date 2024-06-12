@@ -3,7 +3,6 @@
 using namespace std;
 #define BOYUT 10 
 
-// Ba?l? liste dü?üm s?n?f?
 class Dugum {
 public:
     Dugum(int veri) : veri(veri), pSonraki(nullptr) {}      //yapici constructor Dugum nesnesi oluşturuldugunda bu parametreyi kullanarak nesneyi baslatmaktir
@@ -12,21 +11,21 @@ public:
 };
 
 // Menü için fonksiyon prototipleri
-void yiginMenusu();       // Y???n i?lemleri menüsü
-void kuyrukMenusu();      // Kuyruk i?lemleri menüsü
-void bagliListeMenusu();  // Ba?l? liste i?lemleri menüsü
-void ikiliAgacMenusu();   // ?kili a?aç i?lemleri menüsü
-void hashTabloMenusu();   // Hash tablo i?lemleri menüsü
-void anaMenu();           // Ana menü
+void yiginMenusu();       
+void kuyrukMenusu();      
+void bagliListeMenusu(); 
+void ikiliAgacMenusu();   
+void hashTabloMenusu();   
+void anaMenu();          
 
 int main() {
-    anaMenu();            // Ana menüyü ba?lat
-    return 0;             // Program? sonland?r
+    anaMenu();            
+    return 0;           
 }
 
 // Ana menünün uygulanmas?
 void anaMenu() {
-    int secim;            // Kullan?c? seçimi için de?i?ken
+    int secim;            
     do {
         // Ana menü seçeneklerini göster
         cout << "\nYapmak istediginiz uygulamayi seciniz:\n";
@@ -37,8 +36,7 @@ void anaMenu() {
         cout << "5. Cirpilama Uygulamasi\n";
         cout << "6. Cikis\n";
         cout << "Seciminizi girin: ";
-        cin >> secim;    // Kullan?c? seçimini oku
-
+        cin >> secim;   
         // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
         switch (secim) {
         case 1:
@@ -67,17 +65,14 @@ void anaMenu() {
 class Stack
 {
     int top = -1; //indis bilgisi
-    int YIGIN[BOYUT]; /*Veri tiplerimiz private çünkü
-    kullan?c? örne?in «top» de?i?kenini kafas?na göre de?i?tirmesin
-    yani y???n?n yap?s?n? bozmas?n*/
+    int YIGIN[BOYUT]; 
 public:
 
     Stack(); /*Kurucu fonksiyon; s?n?ftan bir nesne olu?turdu?umuzda
     ba?lang?ç de?erlerini belirliyor*/
 
-    bool Push(int x);  /*??lemin gerçekle?ip gerçekle?medi?inin
-    anla??lmas? için bool kullan?yoruz.*/
-    int Pop(); //silinen say?y? göterecek
+    bool Push(int x);  
+    int Pop(); 
     void WriteAll();
     void DeleteAll();
     void elemanSayisi();
@@ -144,8 +139,8 @@ void Stack::elemanSayisi()
 
 // Y???n menüsünün uygulanmas?
 void yiginMenusu() {
-    Stack s;                     // Y???n nesnesi olu?tur
-    int secim, deger;                // Kullan?c? seçimi ve de?er için de?i?kenler
+    Stack s;                    
+    int secim, deger;              
 
     do {
         // Y???n menü seçeneklerini göster
@@ -157,20 +152,19 @@ void yiginMenusu() {
         cout << "5_ Yigindaki eleman sayisini goster\n";
         cout << "6_ Ana menuye geri don\n";
         cout << "Seciminizi girin: ";
-        cin >> secim;                // Kullan?c? seçimini oku
-
-        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        cin >> secim;             
+       
         switch (secim) {
         case 1:
             cout << "Eklenecek degeri girin: ";
-            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
-            s.Push(deger);       // De?eri y???na ekle
+            cin >> deger;           
+            s.Push(deger);     
             break;
         case 2:
-            s.Pop();           // Y???ndan bir eleman ç?kar
+            s.Pop();         
             break;
         case 3:
-            s.DeleteAll();          // Y???n? göster
+            s.DeleteAll();        
             break;
         case 4:
             s.WriteAll();
@@ -182,26 +176,26 @@ void yiginMenusu() {
             cout << "Ana Menuye donuluyor...\n";
             break;
         default:
-            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; 
         }
-    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+    } while (secim != 6);               
 }
 class CircularQueue//ismi DaireselKuyruk da verebiliriz. 
 {
 private:
-    int		Kuyruk[BOYUT]; //Kuyruk elemanlar?n?n tutulaca?? dizi
-    int		KB; //Kuyru?un ilk eleman?n?n indis de?erini tutan de?i?ken
-    int		KS; //Kuyru?un son eleman?n?n indis de?erini tutan de?i?ken
-    int		ES; //eleman say?s?
+    int		Kuyruk[BOYUT]; 
+    int		KB; 
+    int		KS; 
+    int		ES; 
 public:
     CircularQueue();
-    bool	Ekle(int yeniEleman); //Kuyru?a eleman ekleme (Enqueue)  Push() 
-    bool	Cikar(); //Kuyruktan eleman ç?karma (Dequeue)  Pop() 
-    void	Temizle(); //IsEmpty() 
-    void  	Yazdir(); //writeAll() Display() 
+    bool	Ekle(int yeniEleman);  
+    bool	Cikar(); 
+    void	Temizle(); 
+    void  	Yazdir(); 
     void    elemanSayisi();
 };
-CircularQueue::CircularQueue()//kurucu(Yap?c?) fonksiyon
+CircularQueue::CircularQueue()
 {
     KS = -1;
     KB = -1;
@@ -211,9 +205,9 @@ CircularQueue::CircularQueue()//kurucu(Yap?c?) fonksiyon
 
 bool CircularQueue::Ekle(int yeniEleman)
 {
-    //E?er dizi dolmu?sa fonksiyon hemen geri döner.
-    if (ES >= BOYUT) //dizi dolu ve ekleme yapamazs?n
-        return false; //Kuyru?a ekleme i?lemi gerçekle?medi
+  
+    if (ES >= BOYUT) 
+        return false; 
 
     //E?er kuyruk bo? ise  ilk olarak KB artt?r?lmal?d?r
     if (KB == -1)
@@ -223,32 +217,31 @@ bool CircularQueue::Ekle(int yeniEleman)
 
     //E?er kuyruk dizinin son eleman? ise kuyru?u ba?a sar
     if (KS == BOYUT - 1)
-        KS = 0;  //kuyruk sonunu 0 yapal?m, çünkü zaten KB=0 de?il
-    else   // kuyruk sonu herhangibir yeri gösteriyorsa 1 art?rmak yeterli
+        KS = 0;  
+    else  
         KS++;
 
     Kuyruk[KS] = yeniEleman;
-    //Kuyruktaki eleman say?s?n? 1 artt?r, çünkü ekleme yapt?k
+   
     ES++;
-    return true; //Kuyru?a ekleme i?lemi gerçekle?ti demektir.
+    return true;
 }
 
 bool CircularQueue::Cikar()
 {
-    //E?er kuyruk bo? ise 0 döndür çünkü eleman ç?karma i?lemi yapamay?z
+    
     if (ES == 0)
         return false;
 
-    //Kuyru?un ba?? dizinin son eleman? ise KB de?i?kenini dizinin ba?? yap
+   
     if (KB == BOYUT - 1)
         KB = 0;
-    else //son eleman de?ilse KB 1 artacak
+    else 
         KB++;
 
-    //silme i?lemi yapt???m?za göre Kuyruktaki eleman say?s?n? bir azalt
+    
     ES--;
 
-    //E?er kuyrukta eleman kalmad?ysa de?i?kenleri ba?lang?ç durumuna getir
     if (ES <= 0) // "=="" de olur. 
 
         KS = KB = -1;
@@ -289,8 +282,8 @@ void CircularQueue::elemanSayisi() {
 
 // Kuyruk menüsünün uygulanmas?
 void kuyrukMenusu() {
-    CircularQueue k;                       // Kuyruk nesnesi olu?tur
-    int secim, deger;                    // Kullan?c? seçimi ve de?er için de?i?kenler
+    CircularQueue k;                      
+    int secim, deger;                  
     do {
         // Kuyruk menü seçeneklerini göster
         cout << "\nKuyruk icin islem seciniz:\n";
@@ -301,17 +294,16 @@ void kuyrukMenusu() {
         cout << "5_ Kuyruktaki eleman sayisini goster\n";
         cout << "6_ Ana menuye geri don\n";
         cout << "Seciminizi girin: ";
-        cin >> secim;                    // Kullan?c? seçimini oku
-
-        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        cin >> secim;                  
+        
         switch (secim) {
         case 1:
             cout << "Eklenecek degeri girin: ";
-            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
-            k.Ekle(deger);      // De?eri kuyru?a ekle
+            cin >> deger;            
+            k.Ekle(deger);      
             break;
         case 2:
-            k.Cikar();          // Kuyruktan bir eleman ç?kar
+            k.Cikar();          
             break;
         case 3:
             k.Temizle();         
@@ -323,23 +315,23 @@ void kuyrukMenusu() {
             k.elemanSayisi();
             break;
         case 6:
-            cout << "Ana Menuye donuluyor...\n"; // Ana menüye dön
+            cout << "Ana Menuye donuluyor...\n";
             break;
         default:
-            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; 
         }
-    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+    } while (secim != 6);                
 }
 
 void ArayaEkle(Dugum* pBas, Dugum* pYeni, int index) {
     // Dugumu belirtilen pozisyona eklemek icin gecici isaretci olustur
-    Dugum* gecici = pBas;                  //khdemna wahed jdid wa3tinalou 9imet lewl
-    for (int i = 0; i < index - 2; i++)       // hada bach yemchi lwin lazem ndirou lkhdema
+    Dugum* gecici = pBas;                  
+    for (int i = 0; i < index - 2; i++)      
         gecici = gecici->pSonraki;
 
     // Yeni dugumu gecici isaretcinin isaret ettigi dugumden once ekle
-    pYeni->pSonraki = gecici->pSonraki;           //ladres mour pbas na3touha li mour jdida 
-    gecici->pSonraki = pYeni;                   //nzidouha 
+    pYeni->pSonraki = gecici->pSonraki;           
+    gecici->pSonraki = pYeni;                  
 }
 
 void SonaEkle(Dugum* pBas, Dugum* pYeni) {
@@ -376,7 +368,7 @@ Dugum* SondanCikar(Dugum* pBas) {
     return gecici;
 }
 
-// Ba?l? liste menüsünün uygulanmas?
+
 void bagliListeMenusu() {
     int secim, pozisyon, al ;
     Dugum* pBas = nullptr;
@@ -390,7 +382,7 @@ void bagliListeMenusu() {
         cout << "5_ Listedeki eleman sayisini goster\n";
         cout << "6_ Ana menuye geri don\n";
         cout << "Seciminizi girin: \n";
-        cin >> secim;                    // Kullan?c? seçimini oku
+        cin >> secim;                   
 
         // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
         switch (secim) {
@@ -408,9 +400,9 @@ void bagliListeMenusu() {
                 case 1: {
                       cout << "Eklenecek deger: ";
                       cin >> eleman;
-                      Dugum* yeniDugum = new Dugum(eleman);         //khdemna wahda jdida seminaha 9efla jdida
-                      yeniDugum->pSonraki = pBas;                  //wekherna lewla bach tweli zawja
-                      pBas = yeniDugum;           //hetina li khdemnaha jdida lewla
+                      Dugum* yeniDugum = new Dugum(eleman);        
+                      yeniDugum->pSonraki = pBas;                 
+                      pBas = yeniDugum;           
                 }
                     break;
                 case 2:
@@ -418,7 +410,7 @@ void bagliListeMenusu() {
                     cin >> eleman;
                     cout << "Pozisyon: ";
                     cin >> pozisyon;
-                    if (pozisyon == 1) {            //ida kan wahed ndirou kima dayrin lfou9
+                    if (pozisyon == 1) {          
 
                         Dugum* yeniDugum = new Dugum(eleman);
                         yeniDugum->pSonraki = pBas;
@@ -426,19 +418,19 @@ void bagliListeMenusu() {
 
                     }
                     else {
-                        Dugum* yeniDugum = new Dugum(eleman);           //khdemna wahda jdida wa3tilnaha l9ima li dinaha
-                        ArayaEkle(pBas, yeniDugum, pozisyon);             //n3ewdouha fe hand fonc
+                        Dugum* yeniDugum = new Dugum(eleman);           
+                        ArayaEkle(pBas, yeniDugum, pozisyon);            
                     }
                     break;
                 case 3:
                     cout << "Eklenecek deger: ";
                     cin >> eleman;
-                    if (pBas == nullptr) {            //hadi ila kanet fargha 
-                        pBas = new Dugum(eleman);               //3tinalou l9ima li dinaha
+                    if (pBas == nullptr) {           
+                        pBas = new Dugum(eleman);             
                     }
-                    else {                 //ida makanetch fargha
-                        Dugum* pYeni = new Dugum(eleman);              //khdemna wahda jdida wa3tinla li dinaha
-                        SonaEkle(pBas, pYeni);               //nebe3touha lel fonc
+                    else {                
+                        Dugum* pYeni = new Dugum(eleman);              
+                        SonaEkle(pBas, pYeni);             
                     }
                     break;
                 case 4:
@@ -462,12 +454,12 @@ void bagliListeMenusu() {
                 switch (al)
                 {
                 case 1:
-                    if (pBas == nullptr) {              //fi hal ida kant faregh
+                    if (pBas == nullptr) {             
                         cout << "Liste bos.\n";
                     }
                     else {
-                        // Dugum* temp = pBas;           //bas nkhebiw 9imet wach nehina 
-                        pBas = pBas->pSonraki;               // n9elna lewla le zawja
+                        // Dugum* temp = pBas;           
+                        pBas = pBas->pSonraki;               
 
                     }
                     break;
@@ -478,10 +470,9 @@ void bagliListeMenusu() {
                         if (pBas == nullptr) {
                             cout << "Liste bos.\n";
                         }
-                        else {              //machi fargha
-                            // Dugum* temp = pBas;           //bach nkhebiw wach ne7ina
-                            pBas = pBas->pSonraki;       //kima lfou9 n9elna lewla le zawja
-
+                        else {              
+                            // Dugum* temp = pBas;          
+                            pBas = pBas->pSonraki;       
                         }
                     }
                     else {
@@ -516,7 +507,7 @@ void bagliListeMenusu() {
                 cout << "Liste bos.\n";
             }
             else {
-                Dugum* pTemp = pBas;         //bas matrouhelnch l9ima oukan mandirouhch tban khetra brk 
+                Dugum* pTemp = pBas;        
                 while (pTemp != nullptr) {
                     cout << pTemp->veri << " ";
                     pTemp = pTemp->pSonraki;
@@ -542,7 +533,7 @@ void bagliListeMenusu() {
             cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; 
             break;
         }
-    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+    } while (secim != 6);                
 }
 
 class IkiliAgac //Ikili tree
@@ -741,10 +732,10 @@ int IkiliAgac::elemanSayisi(Agacdugum* dugumPtr) {
 }
 
 
-// ?kili a?aç menüsünün uygulanmas?
+
 void ikiliAgacMenusu() {
-    IkiliAgac agac;                      // ?kili a?aç nesnesi olu?tur
-    int secim, deger;                    // Kullan?c? seçimi ve de?er için de?i?kenler
+    IkiliAgac agac;                     
+    int secim, deger;                   
     do {
         // ?kili a?aç menü seçeneklerini göster
         cout << "\nIkili Agac icin islem seciniz:\n";
@@ -757,14 +748,14 @@ void ikiliAgacMenusu() {
         cout << "7_ Agaci PostOrder dolasarak Elemanlari Doster\n";
         cout << "8_ Ana menuye deri don\n";
         cout << "Seciminizi girin: ";
-        cin >> secim;                    // Kullan?c? seçimini oku
+        cin >> secim;                   
 
-        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+       
         switch (secim) {
         case 1:
             cout << "Eklenecek degeri girin: ";
-            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
-            agac.dugumEkle(deger);      // De?eri ikili a?aca ekle
+            cin >> deger;           
+            agac.dugumEkle(deger);      
             break;
         case 2:
             cout << "Silenecek deger girin: ";
@@ -793,23 +784,23 @@ void ikiliAgacMenusu() {
         case 8:
             break;
         default:
-            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n";
         }
-    } while (secim != 8);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+    } while (secim != 8);             
 }
 
-// Hash tablo s?n?f?n?n yöntemlerinin uygulanmas?
+
 class HashTablo {
 private:
     static const int hashGruplari = 10; // Hash tablo grup sayısı
     list<int> tablo[hashGruplari];      // Hash tablo elemanlarını saklayan liste dizisi
 public:
-    int hashFonksiyonu(int deger);   // Anahtar için hash değeri hesaplama
-    void ekle(int deger);            // Hash tabloya eleman ekleme
-    void sil(int deger);             // Hash tablodan eleman silme
-    void temizle();                  // Hash tabloyu temizleme
-    int elemanSayisi() const;        // Hash tablodaki toplam eleman sayısını döndürme
-    void goster() const;             // Hash tablo elemanlarını gösterme
+    int hashFonksiyonu(int deger);   
+    void ekle(int deger);           
+    void sil(int deger);           
+    void temizle();                  
+    int elemanSayisi() const;       
+    void goster() const;             
 };
 
 int HashTablo::hashFonksiyonu(int deger) {
