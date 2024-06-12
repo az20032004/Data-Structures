@@ -1,31 +1,900 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34511.84
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "projet", "projet\projet.vcxproj", "{ECA7FC6B-55F1-48DB-99B0-20958590C814}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Debug|x64.ActiveCfg = Debug|x64
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Debug|x64.Build.0 = Debug|x64
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Debug|x86.ActiveCfg = Debug|Win32
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Debug|x86.Build.0 = Debug|Win32
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Release|x64.ActiveCfg = Release|x64
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Release|x64.Build.0 = Release|x64
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Release|x86.ActiveCfg = Release|Win32
-		{ECA7FC6B-55F1-48DB-99B0-20958590C814}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87D6CC47-3C8A-42A4-9A50-1BC8CE4305E6}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+#include <list>
+using namespace std;
+#define BOYUT 10 
+
+// Ba?l? liste dü?üm s?n?f?
+class Dugum {
+public:
+    Dugum(int veri) : veri(veri), pSonraki(nullptr) {}      //yapici constructor Dugum nesnesi oluşturuldugunda bu parametreyi kullanarak nesneyi baslatmaktir
+    int veri;
+    Dugum* pSonraki;
+};
+
+// Menü için fonksiyon prototipleri
+void yiginMenusu();       // Y???n i?lemleri menüsü
+void kuyrukMenusu();      // Kuyruk i?lemleri menüsü
+void bagliListeMenusu();  // Ba?l? liste i?lemleri menüsü
+void ikiliAgacMenusu();   // ?kili a?aç i?lemleri menüsü
+void hashTabloMenusu();   // Hash tablo i?lemleri menüsü
+void anaMenu();           // Ana menü
+
+int main() {
+    anaMenu();            // Ana menüyü ba?lat
+    return 0;             // Program? sonland?r
+}
+
+// Ana menünün uygulanmas?
+void anaMenu() {
+    int secim;            // Kullan?c? seçimi için de?i?ken
+    do {
+        // Ana menü seçeneklerini göster
+        cout << "\nYapmak istediginiz uygulamayi seciniz:\n";
+        cout << "1. Yigin Uygulamasi\n";
+        cout << "2. Kuyruk Uygulamasi\n";
+        cout << "3. Tek Yonlu Bagli Liste Uygulamasi\n";
+        cout << "4. Ikili Agac Uygulamasi\n";
+        cout << "5. Cirpilama Uygulamasi\n";
+        cout << "6. Cikis\n";
+        cout << "Seciminizi girin: ";
+        cin >> secim;    // Kullan?c? seçimini oku
+
+        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        switch (secim) {
+        case 1:
+            yiginMenusu();  
+            break;
+        case 2:
+            kuyrukMenusu();  
+            break;
+        case 3:
+            bagliListeMenusu(); 
+            break;
+        case 4:
+            ikiliAgacMenusu(); 
+            break;
+        case 5:
+            hashTabloMenusu(); 
+            break;
+        case 6:
+            cout << "Programdan cikiliyor...\n"; 
+            break;
+        default:
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; 
+        }
+    } while (secim != 6); // Kullan?c? ç?k?? yapana kadar devam et
+}
+class Stack
+{
+    int top = -1; //indis bilgisi
+    int YIGIN[BOYUT]; /*Veri tiplerimiz private çünkü
+    kullan?c? örne?in «top» de?i?kenini kafas?na göre de?i?tirmesin
+    yani y???n?n yap?s?n? bozmas?n*/
+public:
+
+    Stack(); /*Kurucu fonksiyon; s?n?ftan bir nesne olu?turdu?umuzda
+    ba?lang?ç de?erlerini belirliyor*/
+
+    bool Push(int x);  /*??lemin gerçekle?ip gerçekle?medi?inin
+    anla??lmas? için bool kullan?yoruz.*/
+    int Pop(); //silinen say?y? göterecek
+    void WriteAll();
+    void DeleteAll();
+    void elemanSayisi();
+
+};
+
+Stack::Stack()
+{
+    top = -1;
+}
+bool Stack::Push(int x)
+{ //Y???na yeni bir eleman eklemeyi sa?lar
+    if (top >= (BOYUT - 1))
+    {
+        cout << "Yigin Dolu";
+        return false;
+    }
+    else
+    {
+        YIGIN[++top] = x;
+        cout << x << " degeri Yigina eklendi\n";
+        return true;
+    }
+}
+
+int Stack::Pop()
+{ //Y???na eklenen son eleman? ç?karmaya yarar.
+    if (top < 0)
+    {
+        cout << "Yigin Bos";
+        return 0;
+    }
+    else
+    {
+        int x = YIGIN[top--];
+        return x;
+    }
+}
+
+void Stack::WriteAll()
+{
+    if (top >= 0) {
+        cout << "Yigindaki elemanlar:";
+        for (int i = top; i >= 0; i--)
+            cout << YIGIN[i] << " ";
+        cout << endl;
+    }
+    else
+        cout << "Yigin bos" << endl;
+}
+
+void Stack::DeleteAll()
+{
+    top = -1;
+}
+
+void Stack::elemanSayisi()
+{
+    int sayi = 0;
+    for (int i = top; i >= 0; i--)
+        sayi++;
+    cout << "Yigindaki eleman sayisi: " << sayi << endl;
+}
+
+// Y???n menüsünün uygulanmas?
+void yiginMenusu() {
+    Stack s;                     // Y???n nesnesi olu?tur
+    int secim, deger;                // Kullan?c? seçimi ve de?er için de?i?kenler
+
+    do {
+        // Y???n menü seçeneklerini göster
+        cout << "\nYigin icin islem seciniz:\n";
+        cout << "1_ Yigina eleman ekle\n";
+        cout << "2_ Yigina eleman cikar\n";
+        cout << "3_ Yigini temizle\n";
+        cout << "4_ Yigindaki elemanlari goster\n";
+        cout << "5_ Yigindaki eleman sayisini goster\n";
+        cout << "6_ Ana menuye geri don\n";
+        cout << "Seciminizi girin: ";
+        cin >> secim;                // Kullan?c? seçimini oku
+
+        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        switch (secim) {
+        case 1:
+            cout << "Eklenecek degeri girin: ";
+            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
+            s.Push(deger);       // De?eri y???na ekle
+            break;
+        case 2:
+            s.Pop();           // Y???ndan bir eleman ç?kar
+            break;
+        case 3:
+            s.DeleteAll();          // Y???n? göster
+            break;
+        case 4:
+            s.WriteAll();
+            break;
+        case 5:
+            s.elemanSayisi();
+            break;
+        case 6:
+            cout << "Ana Menuye donuluyor...\n";
+            break;
+        default:
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+        }
+    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+}
+class CircularQueue//ismi DaireselKuyruk da verebiliriz. 
+{
+private:
+    int		Kuyruk[BOYUT]; //Kuyruk elemanlar?n?n tutulaca?? dizi
+    int		KB; //Kuyru?un ilk eleman?n?n indis de?erini tutan de?i?ken
+    int		KS; //Kuyru?un son eleman?n?n indis de?erini tutan de?i?ken
+    int		ES; //eleman say?s?
+public:
+    CircularQueue();
+    bool	Ekle(int yeniEleman); //Kuyru?a eleman ekleme (Enqueue)  Push() 
+    bool	Cikar(); //Kuyruktan eleman ç?karma (Dequeue)  Pop() 
+    void	Temizle(); //IsEmpty() 
+    void  	Yazdir(); //writeAll() Display() 
+    void    elemanSayisi();
+};
+CircularQueue::CircularQueue()//kurucu(Yap?c?) fonksiyon
+{
+    KS = -1;
+    KB = -1;
+    ES = 0;
+}
+
+
+bool CircularQueue::Ekle(int yeniEleman)
+{
+    //E?er dizi dolmu?sa fonksiyon hemen geri döner.
+    if (ES >= BOYUT) //dizi dolu ve ekleme yapamazs?n
+        return false; //Kuyru?a ekleme i?lemi gerçekle?medi
+
+    //E?er kuyruk bo? ise  ilk olarak KB artt?r?lmal?d?r
+    if (KB == -1)
+    {
+        KB++;
+    }
+
+    //E?er kuyruk dizinin son eleman? ise kuyru?u ba?a sar
+    if (KS == BOYUT - 1)
+        KS = 0;  //kuyruk sonunu 0 yapal?m, çünkü zaten KB=0 de?il
+    else   // kuyruk sonu herhangibir yeri gösteriyorsa 1 art?rmak yeterli
+        KS++;
+
+    Kuyruk[KS] = yeniEleman;
+    //Kuyruktaki eleman say?s?n? 1 artt?r, çünkü ekleme yapt?k
+    ES++;
+    return true; //Kuyru?a ekleme i?lemi gerçekle?ti demektir.
+}
+
+bool CircularQueue::Cikar()
+{
+    //E?er kuyruk bo? ise 0 döndür çünkü eleman ç?karma i?lemi yapamay?z
+    if (ES == 0)
+        return false;
+
+    //Kuyru?un ba?? dizinin son eleman? ise KB de?i?kenini dizinin ba?? yap
+    if (KB == BOYUT - 1)
+        KB = 0;
+    else //son eleman de?ilse KB 1 artacak
+        KB++;
+
+    //silme i?lemi yapt???m?za göre Kuyruktaki eleman say?s?n? bir azalt
+    ES--;
+
+    //E?er kuyrukta eleman kalmad?ysa de?i?kenleri ba?lang?ç durumuna getir
+    if (ES <= 0) // "=="" de olur. 
+
+        KS = KB = -1;
+
+    return true; //ç?karma i?lemi yapt?k demektir
+}
+void CircularQueue::Temizle() {
+    KS = -1;
+    KB = -1;
+    ES = 0;
+}
+void CircularQueue::Yazdir()
+{
+    if (KS >= 0) //demekki kuyrukta eleman var
+    {
+        cout << "Kuyruktaki elemanlar:";
+
+        if (KS > KB)
+            for (int i = KB; i <= KS; i++)
+                cout << Kuyruk[i] << " ";
+
+        else //demekki KB>KS
+        {
+            for (int i = KB; i < BOYUT; i++)
+                cout << Kuyruk[i] << " ";
+            for (int i = 0; i <= KS; i++)
+                cout << Kuyruk[i] << " ";
+        }
+        cout << endl;
+
+    }
+    else //demekki kuyrukta eleman yok
+        cout << "Kuyruk bos" << endl;
+}
+void CircularQueue::elemanSayisi() {
+        cout << ES << endl;
+}
+
+// Kuyruk menüsünün uygulanmas?
+void kuyrukMenusu() {
+    CircularQueue k;                       // Kuyruk nesnesi olu?tur
+    int secim, deger;                    // Kullan?c? seçimi ve de?er için de?i?kenler
+    do {
+        // Kuyruk menü seçeneklerini göster
+        cout << "\nKuyruk icin islem seciniz:\n";
+        cout << "1_ Kuyruga eleman ekle\n";
+        cout << "2_ Kuyruktan eleman cikar \n";
+        cout << "3_ Kuyrugu temizle\n";
+        cout << "4_ Kuyruktaki elemanlari goster\n";
+        cout << "5_ Kuyruktaki eleman sayisini goster\n";
+        cout << "6_ Ana menuye geri don\n";
+        cout << "Seciminizi girin: ";
+        cin >> secim;                    // Kullan?c? seçimini oku
+
+        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        switch (secim) {
+        case 1:
+            cout << "Eklenecek degeri girin: ";
+            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
+            k.Ekle(deger);      // De?eri kuyru?a ekle
+            break;
+        case 2:
+            k.Cikar();          // Kuyruktan bir eleman ç?kar
+            break;
+        case 3:
+            k.Temizle();         
+            break;
+        case 4:
+            k.Yazdir();
+            break;
+        case 5:
+            k.elemanSayisi();
+            break;
+        case 6:
+            cout << "Ana Menuye donuluyor...\n"; // Ana menüye dön
+            break;
+        default:
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+        }
+    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+}
+
+void ArayaEkle(Dugum* pBas, Dugum* pYeni, int index) {
+    // Dugumu belirtilen pozisyona eklemek icin gecici isaretci olustur
+    Dugum* gecici = pBas;                  //khdemna wahed jdid wa3tinalou 9imet lewl
+    for (int i = 0; i < index - 2; i++)       // hada bach yemchi lwin lazem ndirou lkhdema
+        gecici = gecici->pSonraki;
+
+    // Yeni dugumu gecici isaretcinin isaret ettigi dugumden once ekle
+    pYeni->pSonraki = gecici->pSonraki;           //ladres mour pbas na3touha li mour jdida 
+    gecici->pSonraki = pYeni;                   //nzidouha 
+}
+
+void SonaEkle(Dugum* pBas, Dugum* pYeni) {
+    // Listenin sonuna kadar ilerle
+    while (pBas->pSonraki != nullptr)
+        pBas = pBas->pSonraki;
+    // Yeni dugumu listenin sonuna ekle
+    pBas->pSonraki = pYeni;
+}
+
+Dugum* AradanCikar(Dugum* pBas, int index) {
+    // Dugumu belirtilen pozisyondan cikarmak icin gecici isaretci olustur
+    Dugum* gecici = pBas;
+    for (int i = 0; i < index - 2; i++)
+        gecici = gecici->pSonraki;
+
+    // Dugumu cikar ve baglantilari ayarla
+    // Dugum* pTemp = gecici->pSonraki;  // Gerekirse gecici dugumu sakla
+    gecici->pSonraki = gecici->pSonraki->pSonraki;
+
+    return gecici;
+}
+
+Dugum* SondanCikar(Dugum* pBas) {
+    // Listenin sonundan bir dugum cikarmak icin gecici isaretci olustur
+    Dugum* gecici = pBas;
+    while (gecici->pSonraki->pSonraki != nullptr)
+        gecici = gecici->pSonraki;
+
+    // Dugumu cikar ve baglantilari ayarla
+    // Dugum* pTemp = gecici->pSonraki;  // Gerekirse gecici dugumu sakla
+    gecici->pSonraki = nullptr;
+
+    return gecici;
+}
+
+// Ba?l? liste menüsünün uygulanmas?
+void bagliListeMenusu() {
+    int secim, pozisyon, al ;
+    Dugum* pBas = nullptr;
+    do {
+        // Ba?l? liste menü seçeneklerini göster
+        cout << "\nBagli Listeicin islem seciniz:\n";
+        cout << "1_ Listeye eleman ekle\n";
+        cout << "2_ Listeye eleman cikar\n";
+        cout << "3_ Listeyi temizle\n";
+        cout << "4_ Listedeki elemanlari goster\n";
+        cout << "5_ Listedeki eleman sayisini goster\n";
+        cout << "6_ Ana menuye geri don\n";
+        cout << "Seciminizi girin: \n";
+        cin >> secim;                    // Kullan?c? seçimini oku
+
+        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        switch (secim) {
+        case 1:
+            do {
+                cout << "1_ Basa eleman ekle\n";
+                cout << "2_ Araya eleman ekle\n";
+                cout << "3_ Sona eleman ekle\n";
+                cout << "4_ Liste islemlerine geri don\n";
+                cout << "Seciminizi girin: \n";
+                cin >> al;
+                switch (al)
+                {
+                    int eleman, pozisyon;
+                case 1: {
+                      cout << "Eklenecek deger: ";
+                      cin >> eleman;
+                      Dugum* yeniDugum = new Dugum(eleman);         //khdemna wahda jdida seminaha 9efla jdida
+                      yeniDugum->pSonraki = pBas;                  //wekherna lewla bach tweli zawja
+                      pBas = yeniDugum;           //hetina li khdemnaha jdida lewla
+                }
+                    break;
+                case 2:
+                    cout << "Eklenecek deger: ";
+                    cin >> eleman;
+                    cout << "Pozisyon: ";
+                    cin >> pozisyon;
+                    if (pozisyon == 1) {            //ida kan wahed ndirou kima dayrin lfou9
+
+                        Dugum* yeniDugum = new Dugum(eleman);
+                        yeniDugum->pSonraki = pBas;
+                        pBas = yeniDugum;
+
+                    }
+                    else {
+                        Dugum* yeniDugum = new Dugum(eleman);           //khdemna wahda jdida wa3tilnaha l9ima li dinaha
+                        ArayaEkle(pBas, yeniDugum, pozisyon);             //n3ewdouha fe hand fonc
+                    }
+                    break;
+                case 3:
+                    cout << "Eklenecek deger: ";
+                    cin >> eleman;
+                    if (pBas == nullptr) {            //hadi ila kanet fargha 
+                        pBas = new Dugum(eleman);               //3tinalou l9ima li dinaha
+                    }
+                    else {                 //ida makanetch fargha
+                        Dugum* pYeni = new Dugum(eleman);              //khdemna wahda jdida wa3tinla li dinaha
+                        SonaEkle(pBas, pYeni);               //nebe3touha lel fonc
+                    }
+                    break;
+                case 4:
+                    cout << "Liste islemlerine donuluyor\n";
+                    break;
+                default:
+                    cout << "Gecersiz secim! Lutfen tekrar deneyin.\n";
+                    break;
+                }
+            } while (al != 4);
+            break;
+            
+        case 2:
+             do {
+                cout << "1_ Bastana eleman cikar\n";
+                cout << "2_ Aradan eleman cikar\n";
+                cout << "3_ sondan eleman cikar\n";
+                cout << "4_ Liste islemlerine geri don\n";
+                cout << "Seciminizi girin: \n";
+                cin >> al;
+                switch (al)
+                {
+                case 1:
+                    if (pBas == nullptr) {              //fi hal ida kant faregh
+                        cout << "Liste bos.\n";
+                    }
+                    else {
+                        // Dugum* temp = pBas;           //bas nkhebiw 9imet wach nehina 
+                        pBas = pBas->pSonraki;               // n9elna lewla le zawja
+
+                    }
+                    break;
+                case 2:
+                    cout << "Silinecek pozisyon: ";
+                    cin >> pozisyon;
+                    if (pozisyon == 1) {
+                        if (pBas == nullptr) {
+                            cout << "Liste bos.\n";
+                        }
+                        else {              //machi fargha
+                            // Dugum* temp = pBas;           //bach nkhebiw wach ne7ina
+                            pBas = pBas->pSonraki;       //kima lfou9 n9elna lewla le zawja
+
+                        }
+                    }
+                    else {
+                        AradanCikar(pBas, pozisyon);      
+                    }
+                    break;
+                case 3:
+                    if (pBas == nullptr) {
+                        cout << "Liste bos.\n";
+                    }
+                    else {
+                        SondanCikar(pBas);
+                    }
+                    break;
+                case 4:
+                    cout << "Liste islemlerine donuluyor\n";
+                    break;
+                default:
+                    cout << "Gecersiz secim! Lutfen tekrar deneyin.\n";
+                    break;
+                }
+            } while (al != 4);
+            break;
+        case 3:       //temizle
+            while (pBas != nullptr)
+                pBas = pBas->pSonraki;
+            pBas = nullptr;
+            cout << "Liste temizlendi ";
+            break;
+        case 4:        //eleman goster
+            if (pBas == nullptr) {
+                cout << "Liste bos.\n";
+            }
+            else {
+                Dugum* pTemp = pBas;         //bas matrouhelnch l9ima oukan mandirouhch tban khetra brk 
+                while (pTemp != nullptr) {
+                    cout << pTemp->veri << " ";
+                    pTemp = pTemp->pSonraki;
+                }
+                cout << endl;
+            }
+            break; 
+        case 5: {                  //sayisini goster
+            Dugum* pTemp = pBas;
+            int sayi = 0;
+            while (pTemp != nullptr)
+            {
+                sayi++;
+                pTemp = pTemp->pSonraki;
+            }
+            cout << sayi;
+        }
+            break;
+        case 6:
+            cout << "Ana Menuye donuluyor...\n";
+            break;
+        default:
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; 
+            break;
+        }
+    } while (secim != 6);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+}
+
+class IkiliAgac //Ikili tree
+{
+public:
+    struct Agacdugum //düğüm oluşturalım
+    {
+        int deger;
+        Agacdugum* sol;
+        Agacdugum* sag;
+    };
+
+    Agacdugum* kok;
+
+    IkiliAgac()	// Kurucu
+    {
+        kok = NULL;
+    }
+
+    void dugumEkle(int);
+    void sil(int sayi);
+    void dugumSil(int,Agacdugum *&);         //silecegimiz dugme ulasmak icin  //bu yapiyi tutan isaretcinin adresine isaret ediyor
+    void gercekSil(Agacdugum*&);
+    void agaciTemizle(Agacdugum* dugumPtr);
+    int elemanSayisi(Agacdugum* dugumPtr);
+    
+
+    //Ağaçta dolaşmak için gerekli fonksiyonlar
+    void InOrderDolasim(Agacdugum* dugumPtr);
+    void PreOrderDolasim(Agacdugum* dugumPtr);
+    void PostOrderDolasim(Agacdugum* dugumPtr);
+    void elemanSayisiYazdir();
+
+    void AgaciTemizle() {
+        agaciTemizle(kok);
+        kok = nullptr;
+    }
+
+    //Güğümleri göstermek için gerekli fonksiyonlar
+    void InOrderDugumGoster(void)
+    {
+        InOrderDolasim(kok);
+    }
+
+    void PreOrderDugumGoster()
+    {
+        PreOrderDolasim(kok);
+    }
+
+    void PostOrderDugumGoster()
+    {
+        PostOrderDolasim(kok);
+    }
+
+};
+void IkiliAgac::dugumEkle(int num)
+{
+    Agacdugum* yenidugum,	// yeni  düğümü işaret edecek
+        * dugumPtr;	// ağacı dolaşacak işaretçi, pBas ile dolaşıyorduk ya.	
+
+    // Yeni düğüm oluştur	
+    yenidugum = new Agacdugum;
+    yenidugum->deger = num;
+    yenidugum->sol = yenidugum->sag = NULL;
+    if (!kok)	// Ağaç boş mu?
+        kok = yenidugum;
+    else
+    {
+        dugumPtr = kok;
+        while (dugumPtr != NULL) //agacta dugum bulundugu surece
+        {
+            if (num < dugumPtr->deger)
+            {
+                if (dugumPtr->sol)
+                    dugumPtr = dugumPtr->sol;
+                else
+                {
+                    dugumPtr->sol = yenidugum;
+                    break;
+                }
+            }//if kapat
+            else if (num > dugumPtr->deger)
+            {
+                if (dugumPtr->sag)
+                    dugumPtr = dugumPtr->sag;
+                else
+                {
+                    dugumPtr->sag = yenidugum;
+                    break;
+                }
+            }//else if kapat
+            else
+            {
+                cout << "Agacta ayni değer iki defa bulundu.\n";
+                break;
+            }
+        }//while kapat			
+
+    }//else kapat	
+}//fonksiyon sonu
+
+//Ağaçta InOrder dolaşalım
+void IkiliAgac::InOrderDolasim(Agacdugum* dugumPtr)
+{//sol-kok-sag
+    if (dugumPtr)
+    {
+        InOrderDolasim(dugumPtr->sol);
+        cout << dugumPtr->deger << endl;
+        InOrderDolasim(dugumPtr->sag);
+    }
+}
+
+//Ağaçta PreOrder dolaşalım
+void IkiliAgac::PreOrderDolasim(Agacdugum* dugumPtr)
+{//kok-sol-sag
+    if (dugumPtr)
+    {
+        cout << dugumPtr->deger << endl;
+        PreOrderDolasim(dugumPtr->sol);
+        PreOrderDolasim(dugumPtr->sag);
+    }
+}
+
+//Ağaçta PostOrder dolaşalım
+void IkiliAgac::PostOrderDolasim(Agacdugum* dugumPtr)
+{//sol-sag-kok
+    if (dugumPtr)
+    {
+        PostOrderDolasim(dugumPtr->sol);
+        PostOrderDolasim(dugumPtr->sag);
+        cout << dugumPtr->deger << endl;
+    }
+}
+void IkiliAgac::sil(int sayi)
+{
+    dugumSil(sayi, kok);
+}
+void IkiliAgac::dugumSil(int sayi, Agacdugum *& dugumPtr)          //ulasacak ve silecek
+{
+    if (sayi < dugumPtr->deger)    //sayi solda mi?
+        dugumSil(sayi, dugumPtr->sol);
+    else if (sayi  > dugumPtr->deger)   
+        dugumSil(sayi, dugumPtr->sag);
+    else
+        gercekSil(dugumPtr);
+}
+void IkiliAgac::gercekSil(Agacdugum *& dugumPtr)
+{
+    Agacdugum* tempdugumPtr;
+    if (dugumPtr == NULL) cout << "dugum yok";
+    else if (dugumPtr->sag == NULL)
+    {// Sağ alt düğüm boşsa, düğümü sol alt düğümle değiştirir ve düğümü siler.
+        tempdugumPtr = dugumPtr;
+        dugumPtr = dugumPtr->sol;
+        delete tempdugumPtr;
+    }
+    else if (dugumPtr->sol == NULL)
+    {// Sol alt düğüm boşsa, düğümü sağ alt düğümle değiştirir ve düğümü siler.
+        tempdugumPtr = dugumPtr;
+        dugumPtr = dugumPtr->sag;
+        delete tempdugumPtr;
+    }
+    else
+    {// Hem sol hem de sağ alt düğümleri dolu olan bir düğümü silmek için kullanılır.
+        // Soldaki alt ağacın en sağ düğümü, silinecek düğümün yerine geçirilir.
+        tempdugumPtr = dugumPtr;
+        while (tempdugumPtr->sol)
+            tempdugumPtr = tempdugumPtr->sol;
+        // sol altta kalan agaci yukariya tasmistik
+        tempdugumPtr->sol = dugumPtr -> sol;
+        tempdugumPtr = dugumPtr;
+        //sag altta kalan agaci yukariya at
+        tempdugumPtr = dugumPtr->sag;
+        delete tempdugumPtr;
+    }
+
+}
+void IkiliAgac::agaciTemizle(Agacdugum* dugumPtr)
+{
+    if (dugumPtr)
+    {
+        agaciTemizle(dugumPtr->sol);
+        agaciTemizle(dugumPtr->sag);
+        delete dugumPtr;
+    }
+}
+void IkiliAgac::elemanSayisiYazdir() {
+    cout << "Eleman sayisi: " << elemanSayisi(kok) << endl;
+}
+
+int IkiliAgac::elemanSayisi(Agacdugum* dugumPtr) {
+    if (dugumPtr == nullptr) {
+        return 0;
+    }
+    return 1 + elemanSayisi(dugumPtr->sol) + elemanSayisi(dugumPtr->sag);
+}
+
+
+// ?kili a?aç menüsünün uygulanmas?
+void ikiliAgacMenusu() {
+    IkiliAgac agac;                      // ?kili a?aç nesnesi olu?tur
+    int secim, deger;                    // Kullan?c? seçimi ve de?er için de?i?kenler
+    do {
+        // ?kili a?aç menü seçeneklerini göster
+        cout << "\nIkili Agac icin islem seciniz:\n";
+        cout << "1_ Agaca eleman Ekle\n";
+        cout << "2_ Agactan Eleman sil\n";
+        cout << "3_ Agaci Temizle\n";
+        cout << "4_ Agactaki Eleman Sayisini Goster\n";
+        cout << "5_ Agaci InOrder dolasarak Elemanlari Goster\n";
+        cout << "6_ Agaci PreOrder dolasarak Elemanlari Goster\n";
+        cout << "7_ Agaci PostOrder dolasarak Elemanlari Doster\n";
+        cout << "8_ Ana menuye deri don\n";
+        cout << "Seciminizi girin: ";
+        cin >> secim;                    // Kullan?c? seçimini oku
+
+        // Farkl? menü seçeneklerini i?lemek için switch-case kullan?m?
+        switch (secim) {
+        case 1:
+            cout << "Eklenecek degeri girin: ";
+            cin >> deger;            // Kullan?c?n?n girdi?i de?eri oku
+            agac.dugumEkle(deger);      // De?eri ikili a?aca ekle
+            break;
+        case 2:
+            cout << "Silenecek deger girin: ";
+            cin >> deger;
+            agac.sil(deger);
+            break;
+        case 3:
+            agac.AgaciTemizle();
+            cout << "agac temizlendi";
+            break;
+        case 4:
+            agac.elemanSayisiYazdir();
+            break;
+        case 5:
+            cout << "InOrderDolasim:" << endl;
+            agac.InOrderDugumGoster();
+            break;
+        case 6:
+            cout << "PreOrderDolasim:" << endl;
+            agac.PreOrderDugumGoster();
+            break;
+        case 7:
+           cout << "PostOrderDolasim:" << endl;
+           agac.PostOrderDugumGoster();
+            break;
+        case 8:
+            break;
+        default:
+            cout << "Gecersiz secim! Lutfen tekrar deneyin.\n"; // Geçersiz seçim i?leme
+        }
+    } while (secim != 8);                // Kullan?c? ana menüye dönmeyi seçene kadar devam et
+}
+
+// Hash tablo s?n?f?n?n yöntemlerinin uygulanmas?
+class HashTablo {
+private:
+    static const int hashGruplari = 10; // Hash tablo grup sayısı
+    list<int> tablo[hashGruplari];      // Hash tablo elemanlarını saklayan liste dizisi
+public:
+    int hashFonksiyonu(int deger);   // Anahtar için hash değeri hesaplama
+    void ekle(int deger);            // Hash tabloya eleman ekleme
+    void sil(int deger);             // Hash tablodan eleman silme
+    void temizle();                  // Hash tabloyu temizleme
+    int elemanSayisi() const;        // Hash tablodaki toplam eleman sayısını döndürme
+    void goster() const;             // Hash tablo elemanlarını gösterme
+};
+
+int HashTablo::hashFonksiyonu(int deger) {
+    return deger % hashGruplari;
+}
+
+void HashTablo::ekle(int deger) {
+    int hashDegeri = hashFonksiyonu(deger);
+    tablo[hashDegeri].push_back(deger);
+}
+
+void HashTablo::sil(int deger) {
+    int hashDegeri = hashFonksiyonu(deger);
+    auto& grup = tablo[hashDegeri];
+    grup.remove(deger);
+}
+
+void HashTablo::temizle() {
+    for (int i = 0; i < hashGruplari; i++) {
+        tablo[i].clear();
+    }
+}
+
+int HashTablo::elemanSayisi() const {
+    int sayi = 0;
+    for (int i = 0; i < hashGruplari; i++) {
+        sayi += tablo[i].size();
+    }
+    return sayi;
+}
+
+void HashTablo::goster() const {
+    for (int i = 0; i < hashGruplari; i++) {
+        if (!tablo[i].empty()) {
+            cout << "Grup " << i << ": ";
+            for (auto deger : tablo[i]) {
+                cout << deger << " ";
+            }
+            cout << endl;
+        }
+    }
+}
+
+// Hash tablo işlemleri menüsü
+void hashTabloMenusu() {
+    HashTablo ht;
+    int secim;
+    do {
+        cout << "\nCirpilama (Hash Tablosu) icin Islem seciniz:\n";
+        cout << "1_ Tabloya Eleman Ekle\n";
+        cout << "2_ Tablodan Eleman Sil\n";
+        cout << "3_ Tabloyu Temizle\n";
+        cout << "4_ Tablodaki Eleman Sayisini Goster\n";
+        cout << "5_ Tablodaki Elemanlari Goster\n";
+        cout << "6_ Ana Menuye Don\n";
+        cout << "Seciminizi girin: ";
+        cin >> secim;
+
+        int deger;
+        switch (secim) {
+        case 1:
+            cout << "Eklemek istediginiz degeri girin: ";
+            cin >> deger;
+            ht.ekle(deger);
+            break;
+        case 2:
+            cout << "Silmek istediginiz degeri girin: ";
+            cin >> deger;
+            ht.sil(deger);
+            break;
+        case 3:
+            ht.temizle();
+            cout << "Hash tablo temizlendi.\n";
+            break;
+        case 4:
+            cout << "Eleman sayisi: " << ht.elemanSayisi() << endl;
+            break;
+        case 5:
+            ht.goster();
+            break;
+        case 6:
+            cout << "Ana menuye donuluyor...\n";
+            break;
+        default:
+            cout << "Gecersiz secim! Tekrar deneyin.\n";
+        }
+    } while (secim != 6);
+}
